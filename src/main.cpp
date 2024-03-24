@@ -5,9 +5,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
+
+
 int main() {
-  sf::RenderWindow window( sf::VideoMode(640, 480, 32), "KChat" );
   sf::UdpSocket server;
+  sf::Clock time;
+
+  bool active = true;
 
   
 
