@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 #define SFML_STATIC
 #include <SFML/Window.hpp>
@@ -16,6 +17,9 @@ int main() {
   bool active = true;
 
   std::thread thrd_grphc(run, &active);
+
+  // poll... forever....
+  while (active) {std::this_thread::sleep_for(std::chrono::seconds(1));}
 
   return 0;
 }
