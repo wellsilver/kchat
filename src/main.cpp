@@ -14,9 +14,10 @@ int main() {
   sf::UdpSocket server;
   sf::Clock time;
 
+  bool gui_active = true;
   bool active = true;
 
-  std::thread thrd_grphc(run, &active);
+  std::thread thrd_grphc(run, &gui_active);
 
   // poll... forever....
   while (active) {std::this_thread::sleep_for(std::chrono::seconds(1));}
