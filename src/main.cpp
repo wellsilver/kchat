@@ -20,7 +20,7 @@ int main() {
   std::thread thrd_grphc(run, &gui_active);
 
   // poll... forever....
-  while (active) {std::this_thread::sleep_for(std::chrono::seconds(1));}
+  while (active) std::this_thread::sleep_for(std::chrono::seconds(1));
 
   return 0;
 }

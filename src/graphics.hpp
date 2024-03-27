@@ -9,7 +9,7 @@ void run(bool *active) {
   while (*active) {
     sf::Event p;
     window.pollEvent(p);
-    
+    if (p.type == p.Closed) *active=0;
 
 
     window.display();
