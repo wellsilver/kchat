@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
-void run(bool *active) {
+void grun(bool *active) {
   sf::RenderWindow window(sf::VideoMode(640, 480, 32), "KChat");
   sf::Event a;
   while (*active) {
