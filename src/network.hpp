@@ -1,5 +1,5 @@
 #include <vector>
 
-void nrun() {
+void nrun(bool *active) {
   
 }

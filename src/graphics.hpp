@@ -5,9 +5,8 @@
 
 void grun(bool *active) {
   sf::RenderWindow window(sf::VideoMode(640, 480, 32), "KChat");
-  sf::Event a;
+  sf::Event p;
   while (*active) {
-    sf::Event p;
     window.pollEvent(p);
     if (p.type == p.Closed) *active=0;
 
