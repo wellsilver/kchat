@@ -16,6 +16,7 @@ void notifyext() {
   t.connect(sf::IpAddress::LocalHost, 64888);
   t.send(sf::Packet() << "gui");
   t.disconnect();
+  std::cout << "This is a second instance, the first instance has been notified (hopefully) and should re-open its window" << std::endl;
 }
 
 int main() {
