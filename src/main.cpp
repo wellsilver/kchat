@@ -29,7 +29,7 @@ int main() {
   bool gui_active = true;
   bool active = true;
 
-  std::thread thrd_grphc(grun, &active, &gui_active);
+  std::thread thrd_grphc(grun, &active, &local_server, &gui_active);
   std::thread thrd_ntwrk(nrun, &active, &local_server);
   // poll... forever....
   while (active) std::this_thread::sleep_for(std::chrono::seconds(1));
