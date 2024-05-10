@@ -32,7 +32,14 @@ int main() {
   std::thread thrd_grphc(grun, &active, &gui_active);
   std::thread thrd_ntwrk(nrun, &active, &local_server);
   // poll... forever....
-  while (active) std::this_thread::sleep_for(std::chrono::seconds(1));
+  sf::TcpSocket sck;
+  sf::Packet fro;
+  while (active) {
+    local_server.accept(sck);
+    sck.receive(fro);
+    gui_active = true;
+    std::cout << "start gui" << std::endl;
+  }
 
   thrd_grphc.join();
   thrd_ntwrk.join();
