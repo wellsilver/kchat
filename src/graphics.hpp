@@ -7,7 +7,7 @@ void gui(bool *active, bool *guiactive) {
   sf::RenderWindow window(sf::VideoMode(640, 480, 32), "KChat");
   
   sf::Event p;
-  while (*guiactive) {
+  while (*guiactive && *active) {
     window.pollEvent(p);
     if (p.type == p.Closed) *guiactive=0;
 
