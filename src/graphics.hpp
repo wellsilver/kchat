@@ -4,7 +4,7 @@
 #include <SFML/Network.hpp>
 
 void gui(bool *active, bool *guiactive) {
-  sf::RenderWindow window(sf::VideoMode(640, 480, 32), "KChat");
+  sf::RenderWindow window(sf::VideoMode(480, 480, 32), "KChat");
   
   sf::Event p;
   while (*guiactive && *active) {
