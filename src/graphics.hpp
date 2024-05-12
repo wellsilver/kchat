@@ -17,7 +17,7 @@ void gui(bool *active, bool *guiactive) {
 }
 
 void grun(bool *active, bool *guiactive) {
-  while (*active) 
-    if (*guiactive) 
+  while (*active)
+    if (*guiactive)
       gui(active, guiactive);
 }
