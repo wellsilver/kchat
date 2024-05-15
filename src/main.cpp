@@ -30,7 +30,8 @@ int main() {
   bool active = true;
 
   std::thread thrd_grphc(grun, &active, &gui_active);
-  std::thread thrd_ntwrk(nrun, &active, &local_server);
+  std::thread thrd_ntwrk(nrun, &active, &server);
+
   // poll... forever....
   sf::TcpSocket sck;
   sf::Packet fro;
