@@ -8,8 +8,9 @@ void gui(bool *active, bool *guiactive) {
   
   sf::Event p;
   while (*guiactive && *active) {
-    window.pollEvent(p);
-    if (p.type == p.Closed) *guiactive=0;
+    while (window.pollEvent(p)) {
+      if (p.type == p.Closed) *guiactive=0;
+    }
 
     window.display();
   }
