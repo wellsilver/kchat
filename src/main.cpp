@@ -13,21 +13,25 @@ unsigned int tasks = 0; // running tasks
 
 WINDOW *win;
 
-void *render(void *) {
+void render() {
+  clear();
+  refresh();
+}
+
+void *handlescr(void *) {
   tasks++;
   win = initscr();
   noecho();
 
-  clear();
-  refresh();
+  render();
 
   while (end == false) {
     wchar_t c = getwchar();
     if (c != BUTTON_SHIFT && c != 'q') {
-
+      composing += c;
     } else if (c == 'q') end = true;
     
-    refresh();
+    render();
   }
 
   endwin();
@@ -41,7 +45,7 @@ void intHandler(int dummy) {
 
 int main() {
   pthread_t rd;
-  pthread_create(&rd, 0, render, 0);
+  pthread_create(&rd, 0, handlescr, 0);
 
   signal(SIGINT, intHandler);
   // wait indefinitely until ended
