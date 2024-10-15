@@ -13,7 +13,12 @@ unsigned int tasks = 0; // running tasks
 
 WINDOW *win;
 
-void render() {
+void renderchat() {
+  clear();
+  refresh();
+}
+
+void rendermenu() {
   clear();
   refresh();
 }
@@ -22,16 +27,24 @@ void *handlescr(void *) {
   tasks++;
   win = initscr();
   noecho();
+  keypad(win, TRUE);
+  nodelay(win, TRUE);
 
-  render();
+  rendermenu();
+  uint mode = 1;
+  wchar_t wc;
 
   while (end == false) {
-    wchar_t c = getwchar();
-    if (c != BUTTON_SHIFT && c != 'q') {
-      composing += c;
-    } else if (c == 'q') end = true;
-    
-    render();
+    usleep(10000);
+    wc = wgetch(win);
+    if (wc == ERR) continue; // do nothing
+
+    // if tab pressed switch menus
+    if (wc == '\t' && mode == 1) mode = 2;
+    else if (mode == 2) mode = 1;
+
+    if (mode == 1) rendermenu();
+    else if (mode == 2) renderchat();
   }
 
   endwin();
@@ -43,12 +56,17 @@ void intHandler(int dummy) {
   end = true;
 }
 
+void resizeHandler(int dummy) {
+  refresh();
+}
+
 int main() {
   pthread_t rd;
   pthread_create(&rd, 0, handlescr, 0);
 
   signal(SIGINT, intHandler);
+  signal(SIGWINCH, resizeHandler);
   // wait indefinitely until ended
-  while (tasks != 0 || end == false) sleep(0);
+  while (tasks != 0 || end == false) usleep(1000);
   return 0;
 }
