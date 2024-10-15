@@ -15,11 +15,27 @@ WINDOW *win;
 
 void renderchat() {
   clear();
+  
+  unsigned int x,y;
+  getmaxyx(win, y, x);
+
+  attron(WA_BOLD);
+  mvprintw(y-1,0, "Chat | Tab for menu | %i peers | %i (known) listeners");
+  attroff(WA_BOLD);
+
   refresh();
 }
 
 void rendermenu() {
   clear();
+
+  unsigned int x,y;
+  getmaxyx(win, y, x);
+
+  attron(WA_BOLD);
+  mvprintw(y-1,0, "Menu | Q to exit | %i peers");
+  attroff(WA_BOLD);
+
   refresh();
 }
 
@@ -29,22 +45,26 @@ void *handlescr(void *) {
   noecho();
   keypad(win, TRUE);
   nodelay(win, TRUE);
+  cbreak();
+  timeout(0);
 
-  rendermenu();
   uint mode = 1;
   wchar_t wc;
 
   while (end == false) {
-    usleep(10000);
-    wc = wgetch(win);
-    if (wc == ERR) continue; // do nothing
+    wc = getch();
 
     // if tab pressed switch menus
-    if (wc == '\t' && mode == 1) mode = 2;
-    else if (mode == 2) mode = 1;
+    if (wc == '\t' && mode == 1) {mode = 2;continue;}
+    if (wc == '\t' && mode == 2) {mode = 1;continue;}
 
+    if (wc <= 'a' && wc >= 'A' && mode == 2) composing += wc;
+    if (wc == 'q' && mode == 1) {end = true;continue;};
+    
     if (mode == 1) rendermenu();
-    else if (mode == 2) renderchat();
+    if (mode == 2) renderchat();
+
+    usleep(10000); // at the end so continue will refresh everything
   }
 
   endwin();
@@ -56,16 +76,11 @@ void intHandler(int dummy) {
   end = true;
 }
 
-void resizeHandler(int dummy) {
-  refresh();
-}
-
 int main() {
   pthread_t rd;
   pthread_create(&rd, 0, handlescr, 0);
 
   signal(SIGINT, intHandler);
-  signal(SIGWINCH, resizeHandler);
   // wait indefinitely until ended
   while (tasks != 0 || end == false) usleep(1000);
   return 0;
