@@ -23,6 +23,10 @@ void renderchat() {
   mvprintw(y-1,0, "Chat | Tab for menu | %i peers | %i (known) listeners");
   attroff(WA_BOLD);
 
+  unsigned int dist = 2;
+  // render chat
+  mvprintw(y-dist, 0, "> %s", composing.c_str());
+
   refresh();
 }
 
@@ -58,14 +62,15 @@ void *handlescr(void *) {
     if (wc == '\t' && mode == 1) {mode = 2;continue;}
     if (wc == '\t' && mode == 2) {mode = 1;continue;}
 
-    if (wc <= 'a' && wc >= 'A' && mode == 2) composing += wc;
+    if (wc >= 'A' && wc <= 'z' && mode == 2) composing += wc;
+    if (wc == KEY_BACKSPACE && mode == 2 && composing.length() > 0) composing.pop_back();
     if (wc == 'q' && mode == 1) {end = true;continue;};
     
     if (mode == 1) rendermenu();
     if (mode == 2) renderchat();
 
     usleep(10000); // at the end so continue will refresh everything
-  }
+  } 
 
   endwin();
   tasks--;
