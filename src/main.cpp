@@ -16,6 +16,8 @@ WINDOW *win;
 void renderchat() {
   clear();
   
+  curs_set(2);
+
   unsigned int x,y;
   getmaxyx(win, y, x);
 
@@ -32,6 +34,8 @@ void renderchat() {
 
 void rendermenu() {
   clear();
+
+  curs_set(0);
 
   unsigned int x,y;
   getmaxyx(win, y, x);
