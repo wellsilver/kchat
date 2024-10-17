@@ -22,7 +22,9 @@ void renderchat() {
   getmaxyx(win, y, x);
 
   attron(WA_BOLD);
-  mvprintw(y-1,0, "Chat | Tab for menu | %i peers | %i (known) listeners");
+  mvprintw(y-1,0, "Chat | Tab for menu"); // left side of bottom bar
+  std::string str = std::to_string(0) + " (known) listeners | " + std::to_string(0) + " Peers";
+  mvprintw(y-1, x-str.length(), str.c_str()); // cant get the width of a formatted string :sob:
   attroff(WA_BOLD);
 
   unsigned int dist = 2;
@@ -41,7 +43,9 @@ void rendermenu() {
   getmaxyx(win, y, x);
 
   attron(WA_BOLD);
-  mvprintw(y-1,0, "Menu | Q to exit | %i peers");
+  mvprintw(y-1,0, "Menu | Q to exit");
+  std::string str = std::to_string(0) + " Peers";
+  mvprintw(y-1, x-str.length(), str.c_str()); // cant get the width of a formatted string :sob:
   attroff(WA_BOLD);
 
   refresh();
@@ -66,8 +70,11 @@ void *handlescr(void *) {
     if (wc == '\t' && mode == 1) {mode = 2;continue;}
     if (wc == '\t' && mode == 2) {mode = 1;continue;}
 
+    // record written words
     if (wc >= 'A' && wc <= 'z' && mode == 2) composing += wc;
     if (wc == KEY_BACKSPACE && mode == 2 && composing.length() > 0) composing.pop_back();
+
+    // exit
     if (wc == 'q' && mode == 1) {end = true;continue;};
     
     if (mode == 1) rendermenu();
