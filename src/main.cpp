@@ -26,11 +26,11 @@ void renderchat() {
   std::string str = std::to_string(0) + " (known) listeners | " + std::to_string(0) + " Peers";
   mvprintw(y-1, x-str.length(), str.c_str()); // cant get the width of a formatted string :sob:
   attroff(WA_BOLD);
-
+  
   unsigned int dist = 2;
   // render chat
-  mvprintw(y-dist, 0, "> %s", composing.c_str());
-
+  mvprintw(y-dist, 0, "OKAY > %s", composing.c_str());
+  
   refresh();
 }
 
@@ -47,7 +47,7 @@ void rendermenu() {
   std::string str = std::to_string(0) + " Peers";
   mvprintw(y-1, x-str.length(), str.c_str()); // cant get the width of a formatted string :sob:
   attroff(WA_BOLD);
-
+  
   refresh();
 }
 
@@ -61,10 +61,10 @@ void *handlescr(void *) {
   timeout(0);
 
   uint mode = 1;
-  wchar_t wc;
+  wint_t wc;
 
   while (end == false) {
-    wc = getch();
+    get_wch(&wc);
 
     // if tab pressed switch menus
     if (wc == '\t' && mode == 1) {mode = 2;continue;}
@@ -93,6 +93,7 @@ void intHandler(int dummy) {
 }
 
 int main() {
+  setlocale(LC_ALL, "");
   pthread_t rd;
   pthread_create(&rd, 0, handlescr, 0);
 
