@@ -72,6 +72,7 @@ void *handlescr(void *) {
 
     // record written words
     if (wc >= 'A' && wc <= 'z' && mode == 2) composing += wc;
+    if (wc == ' ' && mode == 2) composing += wc;
     if (wc == KEY_BACKSPACE && mode == 2 && composing.length() > 0) composing.pop_back();
 
     // exit
