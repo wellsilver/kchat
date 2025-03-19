@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include <signal.h>
 
+// The string that the user is typing
 std::string composing;
 
 bool end = false; // if its time to exit
@@ -24,7 +25,7 @@ void renderchat() {
   attron(WA_BOLD);
   mvprintw(y-1,0, "Chat | Tab for menu"); // left side of bottom bar
   std::string str = std::to_string(0) + " (known) listeners | " + std::to_string(0) + " Peers";
-  mvprintw(y-1, x-str.length(), str.c_str()); // cant get the width of a formatted string :sob:
+  mvprintw(y-1, x-str.length(), str.c_str()); // debian preinstalled isocant get the width of a formatted string :sob:
   attroff(WA_BOLD);
   
   unsigned int dist = 2;
@@ -73,6 +74,7 @@ void *handlescr(void *) {
     // record written words
     if (wc >= 'A' && wc <= 'z' && mode == 2) composing += wc;
     if (wc == ' ' && mode == 2) composing += wc;
+    // backspace
     if (wc == KEY_BACKSPACE && mode == 2 && composing.length() > 0) composing.pop_back();
 
     // exit
