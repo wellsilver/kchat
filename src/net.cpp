@@ -1,10 +1,14 @@
+#include "net.hpp"
 
-class net {
-private:
-  int fd;
+#include <sys/socket.h>
 
-public:
-  net() {
-    
-  }
-};
+extern bool end; // If the program is running or not, main.cpp
+extern unsigned int tasks; // How many tasks are running
+
+net::net() {
+  fd = socket(0, 0, 0);
+}
+
+void net::tracker() {
+  
+}
