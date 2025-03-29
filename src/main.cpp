@@ -1,9 +1,9 @@
 #include <vector>
 #include <string>
+#include <thread>
 
 #include <ncurses.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <signal.h>
 
 #include "net.hpp"
@@ -54,7 +54,7 @@ void rendermenu() {
   refresh();
 }
 
-void *handlescr(void *) {
+void handlescr() {
   tasks++;
   win = initscr();
   noecho();
@@ -90,7 +90,6 @@ void *handlescr(void *) {
 
   endwin();
   tasks--;
-  return 0;
 }
 
 void intHandler(int dummy) {
@@ -99,8 +98,10 @@ void intHandler(int dummy) {
 
 int main() {
   setlocale(LC_ALL, "");
-  pthread_t rd;
-  pthread_create(&rd, 0, handlescr, 0);
+
+  std::thread(handlescr);
+  net comms;
+  comms.starttracker();
 
   signal(SIGINT, intHandler);
   // wait indefinitely until ended

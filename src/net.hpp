@@ -4,9 +4,10 @@
 class net {
   private:
     int fd;
+    void tracker();
   public:
     net();
-    void tracker();
+    void starttracker();
 };
 
 #endif
