@@ -6,6 +6,9 @@
 #include <pthread.h>
 #include <signal.h>
 
+/* net.cpp */
+class net;
+
 // The string that the user is typing
 std::string composing;
 
