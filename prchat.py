@@ -10,6 +10,22 @@ udp over 6040
 """
 
 import socket
+import threading
 import gpg
 
-srv=socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+closing = False
+
+peers = []
+
+def broadcast(): # Tracker
+  srv=socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+  srv.bind(("localhost:5050"))
+
+def talk():
+  pass
+
+broadcastth = threading.Thread(broadcast)
+talkth = threading.Thread(talk)
+
+broadcastth.start()
+talkth.start()
