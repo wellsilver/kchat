@@ -6,7 +6,6 @@ class net {
     int fd;
     void tracker();
   public:
-    net();
     void starttracker();
 };
 
